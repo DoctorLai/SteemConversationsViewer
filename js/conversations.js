@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    
     var running = false;
   // sorttable.makeSortable(document.getElementById("dvlist"));
   function updateProgress(dom, p) {
@@ -9,6 +8,7 @@ $(document).ready(function() {
       dom.html(p + '%');
   }
   
+  // the console on the page
   function log(msg) {
     var t = $('#console').val();
     var ccc = $('#console');  
@@ -20,8 +20,8 @@ $(document).ready(function() {
   function steem_url(id) {
     return "<a target=_blank rel=nofollow href='https://steemit.com/@" + id + "'>@" + id + "</a>";
   }
-  
 
+  // get the history between two accounts with limits
   function getHistory(dom, account, account2, total, from, limit) {
     if (from < limit) {
       limit = from;
@@ -31,17 +31,18 @@ $(document).ready(function() {
         log(err);
         return;
       }
-      if (running == false) return;
+      if (running == false) return; // only 1 instance please
       var cont = from > 0;
       result.forEach(function (tx) {
         var op = tx[1].op;
         var op_type = op[0];
         var op_value = op[1];
   
-            if (running == false) return;
+        if (running == false) return; // stop button is clicked.
         var timestamp = tx[1].timestamp;
                           
         var memo =  $('#memoc').val().trim();
+        // narrow down the comments - ignore the revisions
         if ((op_type == "comment") && (op_value.author == account2) && (!op[1].body.startsWith("@@")) && (op[1].body.includes(memo))) {              
   
               log(tx[1].timestamp + ": @" + account + " says to " + " @" + account2 + ": " + op[1].body);
@@ -51,7 +52,7 @@ $(document).ready(function() {
               var row = '<tr><td>' + steem_url(op[1].author) + '</td><td>' + steem_url(account) + "</td>" + 
               '<td class=overflow-wrap-hack><a target=_blank rel=nofollow href="https://steemit.com/@' + op[1].author + "/" + op[1].permlink + '">' + 'URL</a></td><td>' + op[1].body.replaceAll(memo, "<span style='background:yellow;color:blue'>" + memo + "</span>") + '</td>' + '<td>' + timestamp.replace("T", " ") + '</td></tr>';
               
-              if (sorttype == '1') {
+              if (sorttype == '1') { // sorting type add front or rear
                 $('#dvlist').first().prepend(row);
               } else {
                 $('#dvlist').last().append(row);              
@@ -66,6 +67,7 @@ $(document).ready(function() {
           limit = fromOp;
         }      
         var per = (100 - 100* (from - limit) / total).toFixed(2);
+        // update the UI bar
         updateProgress(dom, per);
         log(per + "% Getting ops starting from " + (from - limit));
         getHistory(dom, account, account2, total, fromOp, limit);
@@ -96,7 +98,7 @@ $(document).ready(function() {
     var acc2 = $('#steemid2').val().trim().toLowerCase().replace("@", "");
     if (steem.utils.validateAccountName(acc) == null && steem.utils.validateAccountName(acc2) == null) {
         running = true;
-        getTransfer($("#bar"), acc, acc2);        
+        getTransfer($("#bar"), acc, acc2);      
         getTransfer($("#bar2"),acc2, acc);
     } else {
         alert('Invalid Steem ID given.');
