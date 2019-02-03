@@ -1,3 +1,42 @@
+/*
+/**
+    2  *
+    3  SortTable
+    4  version 2
+    5  7th April 2007
+    6  Stuart Langridge, http://www.kryogenix.org/code/browser/sorttable/
+    7  
+    8  Instructions:
+    9  Download this file
+   10  Add <script src="sorttable.js"></script> to your HTML
+   11  Add class="sortable" to any table you'd like to make sortable
+   12  Click on the headers to sort
+   13  
+   14  Thanks to many, many people for contributions and suggestions.
+   15  Licenced as X11: http://www.kryogenix.org/code/browser/licence.html
+   16  This basically means: do what you want with it.
+   17  
+   18  @note
+   19  Documentation http://www.kryogenix.org/code/browser/sorttable/
+   20  
+   21  Show the default order
+   22  example:
+   23  <th class=" sorttable_sorted_reverse">
+   24   <th class=" sorttable_sorted">
+   25  
+   26  Sort on date
+   27  <td sorttable_customkey="<?=$row_bank['b_date']?>"> // format YYYYMMDD
+   28  
+   29  force as numeric (normally useless):
+   30  <th class="sorttable_numeric">Part number</th>
+   31  
+   32  Column to ignore : <th class="sorttable_nosort">
+   33  To avoid the sort on the last row, use tfoot
+   34  
+   35  */
+*/
+
+
 var stIsIE = /*@cc_on!@*/false;
 
 sorttable = {
